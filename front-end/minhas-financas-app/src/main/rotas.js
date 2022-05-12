@@ -1,16 +1,16 @@
 import React from "react";
 import Login from "../views/login";
 import CadastroUsuario from "../views/cadastrUsuario";
-import { Route, Routes ,BrowserRouter } from 'react-router-dom'
+import { Route, Routes  , HashRouter} from 'react-router-dom'
 
 function Rotas(){
     return(
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/cadastro-usuario" element={<CadastroUsuario/>}></Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 export default Rotas
