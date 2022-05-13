@@ -9,9 +9,14 @@ class Home extends React.Component {
 
 
     componentDidMount(){
-        axios.get("http://localhost:8080/api/usuarios/1/saldo")
+        const usuarioLogadoString = localStorage.getItem("_usuarioLogado")
+        const usuarioLogadoObjeto = JSON.parse(usuarioLogadoString)
+        console.log(usuarioLogadoObjeto.id)
+        axios.get(`http://localhost:8080/api/usuarios/${usuarioLogadoObjeto.id}/saldo`)
             .then(response => {
+                
                 this.setState({saldo: response.data})
+                
                
             }).catch(err => console.log(err.response))
     }
