@@ -62,7 +62,7 @@ public class UsuarioResources {
 	
 	
 	@GetMapping("{id}/saldo")
-	public ResponseEntity onterSaldo(@PathVariable("id") Long id) {
+	public ResponseEntity obterSaldo(@PathVariable("id") Long id) {
 		Optional<Usuario> user = service.obterPorId(id);
 		if(!user.isPresent()) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);

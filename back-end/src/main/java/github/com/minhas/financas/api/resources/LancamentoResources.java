@@ -146,6 +146,7 @@ public class LancamentoResources {
 		 if(dto.getTipo() != null) {
 			 lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
 		 }
+		 System.out.println("Status :" + dto.getStatus());
 		 if(dto.getStatus() != null) {
 			 lancamento.setStatusLancamento(StatusLancamento.valueOf(dto.getStatus()));
 		 }
