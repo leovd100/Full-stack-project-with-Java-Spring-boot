@@ -3,7 +3,7 @@ import Login from "../views/login";
 import CadastroUsuario from "../views/cadastrUsuario";
 import { Route, Switch  , BrowserRouter} from 'react-router-dom'
 import Home from "../views/home";
-import consultaLancamentos from "../views/consulta-lancamentos";
+import consultaLancamentos from "../views/lancamentos/consulta-lancamentos";
 function Rotas(){
     return(
         <BrowserRouter>
