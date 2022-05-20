@@ -55,6 +55,20 @@ class ConsultaLancamentos extends React.Component {
                 message.mensagemErro('Ocorreu um erro ao tentar deletar o lançamento.')
             })
     }
+
+    changePage = (away, time) => {
+        this.props.history.push(away)
+        setTimeout(() => {
+            window.location.reload();
+        },time)
+    }
+
+    preparaFormularioCadastro = (time) => {
+        this.changePage('/cadastro-lancamentos',time)
+    }
+
+    
+
     buscar = () => {
         if (!this.state.ano) {
             message.mensagemErro('O preenchimento do campo ano é obrigatório.')
@@ -141,7 +155,7 @@ class ConsultaLancamentos extends React.Component {
                             <br />
                             <br />
                             <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
-                            <button type="button" className="btn btn-danger">Cadastrar</button>
+                            <button onClick={e => this.preparaFormularioCadastro()} type="button" className="btn btn-danger">Cadastrar</button>
                         </div>
                     </div>
                 </div>
