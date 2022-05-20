@@ -1,5 +1,6 @@
 import React from "react";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { Dialog } from 'primereact/dialog';
 import Card from "../../components/card";
 import FormGroup from "../../components/formgroup";
 import SelectMenu from "../../components/selectMenu";
@@ -8,19 +9,52 @@ import LancamentoService from "../../app/service/lancamentoService";
 import LocalStorageService from "../../app/service/localStorageService";
 import * as message from '../../components/toastr'
 
-class ConsultaLancamentos extends React.Component{
+import '../../button-demo.css'
+class ConsultaLancamentos extends React.Component {
     state = {
         ano: '',
         mes: '',
         tipo: '',
         descricao: '',
-        lancamentos: []
+        lancamentos: [],
+        lancamentoDeletar: {},
+        showConfirmDialog : false
+
     }
-    constructor(){
+    constructor() {
         super()
         this.service = new LancamentoService()
     }
+    editar = (id) => {
+        console.log('editando')
+    }
 
+    abrirConfirmacao = (lancamentoValue) =>{
+      
+        this.setState({showConfirmDialog: true})
+        this.setState({lancamentoDeletar: lancamentoValue})
+        
+    }
+
+    cancelarDelecao(){
+        this.setState({showConfirmDialog: false, lancamentoDeletar: {}})
+    }
+
+    deletar = () => {
+        
+        this.service.deletar(this.state.lancamentoDeletar.id)
+
+            .then(response => {
+                const lancamentos = this.state.lancamentos
+                const index = lancamentos.indexOf(this.state.lancamentoDeletar)
+                lancamentos.splice(index, 1)
+                this.setState({lancamentos:lancamentos, showConfirmDialog: false })
+                message.mensagemSucesso('Lançamento deletado com sucesso!')
+
+            }).catch(err => {
+                message.mensagemErro('Ocorreu um erro ao tentar deletar o lançamento.')
+            })
+    }
     buscar = () => {
         if (!this.state.ano) {
             message.mensagemErro('O preenchimento do campo ano é obrigatório.')
@@ -38,62 +72,76 @@ class ConsultaLancamentos extends React.Component{
         this.service.consultar(lancamentoFiltro)
             .then(response => {
                 console.log(response)
-                this.setState({lancamentos: response.data})
+                this.setState({ lancamentos: response.data })
             }).catch(err => {
                 console.log(err)
             })
     }
 
-    render(){
+    render() {
         const meses = this.service.opterListaMeses();
         const tipos = this.service.obterListTipos();
 
-        return(
+
+
+        const confirmDialogFooter = (
+       
+                <div>
+                    <button onClick={() => this.deletar()} type="button" className="btn btn-success">Confirma</button>
+                    <button type="button" className="btn btn-danger" onClick={() => this.cancelarDelecao}>Cancelar</button>
+                </div>
+        )
+        
+        
+    
+
+        return (
             <Card title="Consulta Lancamentos">
                 <div className="row">
                     <div className="col-md-6">
                         <div className="bs-component">
                             <FormGroup label="Ano" htmlFor="inputAno">
-                                    <input 
-                                        type="text"
-                                        className="form-control"
-                                        id="inputAno"
-                                        value={this.state.ano}
-                                        onChange={e => this.setState({ano: e.target.value})}
-                                        placeholder="Digite o Ano"
-                                        ></input>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="inputAno"
+                                    value={this.state.ano}
+                                    onChange={e => this.setState({ ano: e.target.value })}
+                                    placeholder="Digite o Ano"
+                                ></input>
                             </FormGroup>
 
                             <FormGroup label="Mês" htmlFor="inputMes">
-                                    <SelectMenu id="inputMes" 
-                                                className="form-control" 
-                                                value={this.state.mes}
-                                                onChange={e => this.setState({mes: this.target.value})}
-                                                lista={meses}/>
+                                <SelectMenu id="inputMes"
+                                    className="form-control"
+                                    value={this.state.mes}
+                                    onChange={e => this.setState({ mes: this.target.value })}
+                                    lista={meses} />
                             </FormGroup>
 
 
                             <FormGroup label="Descrição" htmlFor="inputDesc">
-                                    <input 
-                                        type="text"
-                                        className="form-control"
-                                        id="inputDescricao"
-                                        value={this.state.descricao}
-                                        onChange={e => this.setState({descricao: e.target.value})}
-                                        placeholder="Digite a descrição"
-                                        ></input>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="inputDescricao"
+                                    value={this.state.descricao}
+                                    onChange={e => this.setState({ descricao: e.target.value })}
+                                    placeholder="Digite a descrição"
+                                ></input>
                             </FormGroup>
 
 
                             <FormGroup label="Tipo Lancamento" htmlFor="inputTipo">
-                                    <SelectMenu id="inputTipo"
+                                <SelectMenu id="inputTipo"
                                     value={this.state.tipo}
-                                    onChange={e => this.setState({tipo : this.target.value})}
-                                    className="form-control" lista={tipos}/>
+                                    onChange={e => this.setState({ tipo: this.target.value })}
+                                    className="form-control" lista={tipos} />
                             </FormGroup>
-
-                                <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
-                                <button type="button" className="btn btn-danger">Cadastrar</button>
+                            <br />
+                            <br />
+                            <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
+                            <button type="button" className="btn btn-danger">Cadastrar</button>
                         </div>
                     </div>
                 </div>
@@ -101,10 +149,25 @@ class ConsultaLancamentos extends React.Component{
                 <div className="row">
                     <div className="col-md-12">
                         <div className="bs-component">
-                            <LancamentosTable lancamentos={this.state.lancamentos}></LancamentosTable>
+                            <LancamentosTable lancamentos={this.state.lancamentos}
+                                deletAction={this.abrirConfirmacao}
+                                editAction={this.editar}></LancamentosTable>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <Dialog header="Confirmação" 
+                            visible={this.state.showConfirmDialog} 
+                            style={{ width: '50vw', border: '2px solid black', background: 'white', borderRadius: '5px' , padding: '5px' }} 
+                            modal={true}
+                            footer={confirmDialogFooter}
+                            onHide={() => this.setState({showConfirmDialog: false})}>
+                        <p>Confirma a exclusão deste lancamento?</p>
+                    </Dialog>
+
+
+                </div>
+
             </Card>
         )
     }
