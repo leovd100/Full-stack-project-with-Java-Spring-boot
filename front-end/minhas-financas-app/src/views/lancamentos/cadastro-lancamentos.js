@@ -15,12 +15,28 @@ class CadastroLancamento extends React.Component {
         mes: '',
         ano: '',
         tipo: '',
-        status: ''
+        status: '',
+        usuario: null
+
     }
 
     constructor(){
         super()
         this.service = new LancamentoService();
+    }
+
+    componentDidMount(){
+        const params = this.props.match.params
+        if(params.id){
+            this.service.obterPorid(params.id)
+                    .then(response => {
+                        this.setState({...response.data})
+                        
+                        console.log(response)
+                    }).catch(err => {
+                        messages.mensagemErro(err.response.data)
+                    })
+        }
     }
 
     submit =() => {
@@ -45,6 +61,33 @@ class CadastroLancamento extends React.Component {
                     messages.mensagemErro(err.response.data)
                 })
     }
+
+    
+    atualizar = () => {
+
+        const { descricao, valor, mes, ano, tipo, status, id, usuario } = this.state;
+        const lancamento = {
+            descricao,
+            valor,
+            mes,
+            ano,
+            tipo,
+            usuario,
+            id,
+            status
+        }
+
+        this.service.atualizar(lancamento)
+                .then(response => {
+                   
+                    messages.mensagemSucesso('Lançamento atualizado com sucesso')
+                    this.changePage('/consulta-lancamentos', 4000)
+                }).catch(err => {
+                    messages.mensagemErro(err.response.data)
+                })
+    }
+
+
 
     changePage = (away, time) => {
         this.props.history.push(away)
@@ -125,7 +168,7 @@ class CadastroLancamento extends React.Component {
                                         lista={tipos} 
                                         className="form-control"
                                         name="tipo"
-                                        value={this.tipo}
+                                        value={this.state.tipo}
                                         onChange={this.handleChange}></SelectMenu>
                         </FormGroup>
                     </div>
@@ -146,6 +189,7 @@ class CadastroLancamento extends React.Component {
                         <div className="col-md-6">
                         <br></br>
                             <button className="btn btn-success" onClick={this.submit}>Salvar</button>
+                            <button className="btn btn-primary" onClick={this.atualizar}>Atualizar</button>
                             <button onClick={e => this.changePage('/consulta-lancamentos',0)} className="btn btn-danger">Cancelar</button>
                         </div>
                     </div>

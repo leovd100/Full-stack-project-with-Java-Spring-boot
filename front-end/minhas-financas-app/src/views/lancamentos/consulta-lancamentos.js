@@ -26,14 +26,11 @@ class ConsultaLancamentos extends React.Component {
         this.service = new LancamentoService()
     }
 
-    componentDidMount(){
-        const params = this.props.match.params
-        console.log(params)
-    }
+    
 
     editar = (id) => {
-        //this.changePage(`/cadastro-lancamentos/${id}`,0)
-        this.props.history.push(`/cadastro-lancamentos/${id}`)
+        this.changePage(`/cadastro-lancamentos/${id}`,0)
+ 
     }
 
     abrirConfirmacao = (lancamentoValue) =>{
