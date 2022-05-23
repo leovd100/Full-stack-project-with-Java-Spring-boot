@@ -66,6 +66,15 @@ public class LancamentoResources {
 		return ResponseEntity.ok(listaLancamentos);
 	}
  	
+	@GetMapping("{id}")
+	public ResponseEntity obterLancamento(@PathVariable("id") Long id) {
+		return service.buscarPorId(id)
+					.map(lancamento -> new ResponseEntity(converter(lancamento), HttpStatus.OK))
+							.orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+	}
+	
+	
+	
 	
 	@PutMapping("{id}/atualiza-status")
 	public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDTO dto) {
@@ -124,7 +133,16 @@ public class LancamentoResources {
 	
 	
 	
-	
+	private LancamentoDTO converter(Lancamento lancamento) {
+		return LancamentoDTO.builder().id(lancamento.getId())
+									  .descricao(lancamento.getDescricao())
+									  .mes(lancamento.getMes())
+									  .ano(lancamento.getAno())
+									  .status(lancamento.getStatusLancamento().name())
+									  .valor(lancamento.getValor())
+									  .tipo(lancamento.getTipo().name())
+									  .usuario(lancamento.getUsuario().getId()).build();
+	}
 	
 	
 	
