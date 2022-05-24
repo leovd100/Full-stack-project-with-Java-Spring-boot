@@ -96,6 +96,20 @@ class ConsultaLancamentos extends React.Component {
             })
     }
 
+    alterarStatus = (lancamento, status) => {
+        this.service.alterarStatus(lancamento.id,status)
+            .then(response => {
+                const lancamentos = this.state.lancamentos
+                const index = lancamentos.indexOf(lancamento)
+                if(index !== -1){
+                    lancamento['status'] = status
+                    lancamentos[index] = lancamento
+                    this.setState({lancamentos})
+                }
+                message.mensagemSucesso("Status atualizado com sucesso")
+            })             
+    }
+
     render() {
         const meses = this.service.opterListaMeses();
         const tipos = this.service.obterListTipos();
@@ -110,7 +124,7 @@ class ConsultaLancamentos extends React.Component {
                 </div>
         )
         
-        
+       
     
 
         return (
@@ -169,7 +183,9 @@ class ConsultaLancamentos extends React.Component {
                         <div className="bs-component">
                             <LancamentosTable lancamentos={this.state.lancamentos}
                                 deletAction={this.abrirConfirmacao}
-                                editAction={this.editar}></LancamentosTable>
+                                editAction={this.editar}
+                                alterarStatus={this.alterarStatus}></LancamentosTable>
+                                
                         </div>
                     </div>
                 </div>
