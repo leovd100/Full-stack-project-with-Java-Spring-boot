@@ -1,6 +1,8 @@
 import React from "react";
 import UsuarioService from "../app/service/usuarioService";
-import LocalStorageService from "../app/service/localStorageService";
+//import LocalStorageService from "../app/service/localStorageService";
+import {AuthContext} from '../main/ProvedorAutenticacao'
+
 class Home extends React.Component {
 
 
@@ -14,8 +16,7 @@ class Home extends React.Component {
     }
 
     componentDidMount(){
-        const usuarioLogadoObjeto =  LocalStorageService.obterItem("_usuarioLogado")
-        console.log(usuarioLogadoObjeto)
+        const usuarioLogadoObjeto =  this.context.usuarioAutenticado //LocalStorageService.obterItem("_usuarioLogado")
         this.usuarioService.opterSaldoPorUsuario(usuarioLogadoObjeto.id)
             .then(response => {    
                 this.setState({saldo: response.data})
@@ -46,4 +47,5 @@ class Home extends React.Component {
     }
 }
 
+Home.contextType = AuthContext
 export default Home

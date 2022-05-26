@@ -33,7 +33,6 @@ class CadastroLancamento extends React.Component {
                 .then(response => {
                     this.setState({ ...response.data, atualizando: true })
 
-                    console.log(response)
                 }).catch(err => {
                     messages.mensagemErro(err.response.data)
                 })

@@ -26,6 +26,7 @@ import github.com.minhas.financas.service.LancamentoService;
 import github.com.minhas.financas.service.UsuarioService;
 import github.com.minhas.financas.service.impl.LancamentoServiceImp;
 import github.com.minhas.financas.service.impl.UsuarioServiceImpl;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController

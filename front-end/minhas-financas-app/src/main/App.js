@@ -9,17 +9,17 @@ import 'primereact/styleclass';
 import "../button-demo.css";
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css"; 
+import AuthProvider from "./ProvedorAutenticacao";
 class App extends React.Component {
 
   render() {
     return (
-      <>
+      <AuthProvider>
         <NavBar />
-        
         <div className="container">
           <Rotas />
         </div>
-      </>
+      </AuthProvider>
     )
   }
 }
