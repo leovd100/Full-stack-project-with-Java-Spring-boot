@@ -7,13 +7,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableWebMvc
-public class MinhasFinancasApplication implements WebMvcConfigurer{
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("GET","POST","PUT","DELETE","OPTIONS"); // pode passar a url onde está fazendo as requisições
-	}
+public class MinhasFinancasApplication{
+
 	
 	
 	public static void main(String[] args) {

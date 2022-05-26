@@ -13,7 +13,7 @@ export default class AuthService{
     }
 
     static logar(usuario){
-        console.log(usuario)
+     
         LocalStorageService.adicionarItem(USUARIO_LOGADO, usuario)
     }
 

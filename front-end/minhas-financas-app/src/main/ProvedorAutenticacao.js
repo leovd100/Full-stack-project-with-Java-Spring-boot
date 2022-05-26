@@ -33,7 +33,7 @@ class ProvedorAutenticacao extends React.Component{
             iniciarSessao: this.iniciarSessao,
             encerrarSessao: this.encerrarSessao
         }
-        console.log(contexto)
+        
         return(
           
             

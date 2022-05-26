@@ -79,8 +79,8 @@ public class UsuarioRepositoryTest {
 			 Usuario user = criaUsuario("usuario", "usuario@gmail.com", "senha");
 			 entityManager.persist(user);
 		//Ação
-				Optional<Usuario> usuarioBuscado = repository.findByEmail(user.getEmail());
-				
+				Optional<Usuario> usuarioBuscado = repository.findByEmail("usuario@gmail.com");
+				System.out.println("AQUI" + usuarioBuscado.get());
 		//Verificação
 				Assertions.assertThat(usuarioBuscado.isPresent()).isTrue();
 	}

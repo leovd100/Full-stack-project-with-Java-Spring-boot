@@ -1,11 +1,6 @@
 import React from "react";
 import NavBarItem from "./navBarItem";
-//import AuthService from "../app/service/authService";
 import { AuthCosumer } from "../main/ProvedorAutenticacao";
-/* const deslogar = () => {
-    AuthService.removerUsuarioAutenticado()
-} */
-
 
 
 function NavBar(props) {
