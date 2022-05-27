@@ -6,7 +6,7 @@
 - Springboot 2.1
 - APIRest
 - JWT
-- Junito
+- Junit
 - heroku
 - PostgreSQL
 - React.JS
